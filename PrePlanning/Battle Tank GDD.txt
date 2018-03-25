@@ -1,0 +1,20 @@
+BATTLE TANK GAME DESIGN DOC
+Udemy Unreal Course - Section 4
+
+//Concept:
+The player must drive their tank Actor around a space using realistic tank movement mechanics. The player's goal is to find and destroy the other enemy tanks before one of them destroys the player.
+
+//Rules:
+The player wins if all enemy tanks are destroyed and the player survives.
+The player loses if any enemy tank destroys them.
+The enemy tanks are confined to the same movement and aiming control restrictions as the player.
+Finite health and ammo
+
+//Requirements:
+Tank asset
+Tank Movement AI
+Tank Attack AI
+Firing and Damage Mechanics
+Win and Lose States
+Main Menu/Basic In Game GUI
+Sound Effects
