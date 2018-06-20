@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "Tank.h"
+#include "Engine/World.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -35,7 +36,37 @@ void ATankPlayerController::AimTowardCrosshair()
 	if (!GetControlledTank())
 		return;
 
-	//Get world location if linetrace through crosshair
-	//If it hits the landscape
-	//	Tell controlled tank to aim at this point
+	FVector hitLocation;//Out parameter
+	bool didHit = GetSightRayHitLocation(hitLocation);
+	if (didHit == true)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *hitLocation.ToString());
+		//TODO Tell controlled tank to aim at this point
+	}
+
+}
+bool ATankPlayerController::GetSightRayHitLocation(FVector &outHitLocation) const
+{
+	outHitLocation = FVector(-1.0);
+	return true;
+
+	/*
+	//Linetrace out
+	FHitResult hit;
+	//Get world location of linetrace through crosshair
+	FVector start;
+	FVector end;
+	ECollisionChannel collisionChannel = ECollisionChannel::ECC_EngineTraceChannel1;
+	bool didHit = GetWorld()->LineTraceSingleByChannel(hit, start, end, collisionChannel);
+	//Return true if it hits something, and assign the hit point
+	if (didHit == true)//If it hits the landscape
+	{
+		outHitLocation = FVector(1.0);
+		//outHitLocation = hit.ImpactPoint;
+		return true;
+	}
+	//False if not
+	outHitLocation = FVector(-1.0);
+	return false;
+	*/
 }

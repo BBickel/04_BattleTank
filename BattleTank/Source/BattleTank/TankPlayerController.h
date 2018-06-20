@@ -22,4 +22,5 @@ public:
 private:
 	void AimTowardCrosshair();//Start the tank moving the barrel so the shot will hit the cross hair intersects the world
 	ATank* GetControlledTank() const;
+	bool GetSightRayHitLocation(FVector &outHitLocation) const;
 };
