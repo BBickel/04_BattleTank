@@ -74,8 +74,20 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &outHitLocation) cons
 	//UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString());
 
 	//De-project the screen position of the crosshair to a world direction
-	//Line trace along that look direction and see what we hit (up to a max range)
+	FVector lookDirection;
+	if (GetLookDirection(ScreenLocation, lookDirection))
+	{
+		//Line trace along that look direction and see what we hit (up to a max range)
+		UE_LOG(LogTemp, Warning, TEXT("Cam Direction: %s"), *lookDirection.ToString());
 
+	}
 
 	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& outLookDirection) const
+{
+	FVector cameraLocation;//Not needed
+	//GetWorld()->GetFirstPlayerController()->DeprojectScreenPositionToWorld();//Don't get the First player controller here as we already are a TankPlayerController
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, cameraLocation, outLookDirection);
 }
