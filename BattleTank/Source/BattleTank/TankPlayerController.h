@@ -15,6 +15,13 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY(EditAnywhere)
+	float CrossHairXLocation = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float CrossHairYLocation = 0.33333f;
+
+
 public:
 	virtual void BeginPlay() override;//Leading 'virtual' keyword says if we derive a class from this one, we can override this method again
 	virtual void Tick(float deltaTime) override;//parameter name here is optional
