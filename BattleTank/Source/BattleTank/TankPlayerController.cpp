@@ -78,8 +78,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &outHitLocation) cons
 	if (GetLookDirection(ScreenLocation, lookDirection))
 	{
 		//Line trace along that look direction and see what we hit (up to a max range)
-		UE_LOG(LogTemp, Warning, TEXT("Cam Direction: %s"), *lookDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Cam Direction: %s"), *lookDirection.ToString());
+		bool didHit = GetLookVectorHitLocation(lookDirection, outHitLocation);
 
+		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *outHitLocation.ToString());
+		return didHit;
 	}
 
 	return true;
@@ -91,3 +94,64 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 	//GetWorld()->GetFirstPlayerController()->DeprojectScreenPositionToWorld();//Don't get the First player controller here as we already are a TankPlayerController
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, cameraLocation, outLookDirection);
 }
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVector& outHitLocation) const
+{
+	FHitResult lineTraceHitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (lookDirection * LineTraceRange);
+	bool didHit = GetWorld()->LineTraceSingleByChannel(
+		lineTraceHitResult,
+		StartLocation,
+		EndLocation,
+		ECollisionChannel::ECC_Visibility
+	);
+
+	if (didHit)
+		outHitLocation = lineTraceHitResult.Location;
+	else
+		outHitLocation = FVector(0);//Safe value on false hit
+
+	return didHit;
+}
+//My Attempt:
+//bool ATankPlayerController::GetLookVectorHitLocation(FVector& outHitLocation) const
+//{
+//	FCollisionQueryParams lineCastQueryParams(FName(TEXT("")), false, GetOwner());
+//	FHitResult lineTraceHitResult;
+//	bool didHit = GetWorld()->LineTraceSingleByChannel(
+//		lineTraceHitResult, 
+//		GetReachLineStart(),
+//		GetReachLineEnd(),
+//		ECollisionChannel::ECC_Visibility, 
+//		lineCastQueryParams,
+//		FCollisionResponseParams(ECollisionResponse::ECR_Block));
+//
+//	outHitLocation = lineTraceHitResult.ImpactPoint;
+//	
+//	return didHit;
+//}
+//FVector ATankPlayerController::GetReachLineStart() const
+//{
+//	FVector playerViewPointLocation;
+//	FRotator playerViewPointRotation;
+//	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+//		OUT playerViewPointLocation,
+//		OUT playerViewPointRotation
+//	);
+//
+//	return playerViewPointLocation;
+//}
+//FVector ATankPlayerController::GetReachLineEnd() const
+//{
+//	FVector playerViewPointLocation;
+//	FRotator playerViewPointRotation;
+//	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+//		OUT playerViewPointLocation,
+//		OUT playerViewPointRotation
+//	);
+//
+//	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector() * LineTraceRange;
+//
+//	return lineTraceEnd;
+//}
