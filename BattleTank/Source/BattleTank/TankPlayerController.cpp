@@ -4,7 +4,6 @@
 #include "Tank.h"
 #include "Engine/World.h"
 
-
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,7 +29,6 @@ ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
-
 void ATankPlayerController::AimTowardCrosshair()
 {
 	if (!GetControlledTank())
@@ -40,10 +38,8 @@ void ATankPlayerController::AimTowardCrosshair()
 	bool didHit = GetSightRayHitLocation(hitLocation);
 	if (didHit == true)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *hitLocation.ToString());
-		//TODO Tell controlled tank to aim at this point
+		GetControlledTank()->AimAt(hitLocation);
 	}
-
 }
 //bool ATankPlayerController::GetSightRayHitLocation(FVector &outHitLocation) const
 //{
@@ -81,7 +77,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &outHitLocation) cons
 		//UE_LOG(LogTemp, Warning, TEXT("Cam Direction: %s"), *lookDirection.ToString());
 		bool didHit = GetLookVectorHitLocation(lookDirection, outHitLocation);
 
-		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *outHitLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *outHitLocation.ToString());
 		return didHit;
 	}
 

@@ -27,26 +27,32 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Found Player Target Tank: %s"), *(playerTank->GetName()));
 	}
 }
-//void ATankAIController::Tick(float deltaTime)
-//{
-//
-//}
+void ATankAIController::Tick(float deltaTime)
+{
+	Super::Tick(deltaTime);
+	if (GetPlayerTank())
+	{
+		//TODO Move towards the player
 
+		//Aim towards the player
+		AimAtPlayer();
+
+		//Fire if ready
+	}
+}
 ATank* ATankAIController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
 ATank* ATankAIController::GetPlayerTank() const
 {
-	//return Cast<ATank>(GetWorld()->GetFirstPlayerController());
-
 	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 	if (!PlayerPawn)
 		return nullptr;
 	return Cast<ATank>(PlayerPawn);
 }
-
-//void ATankAIController::AimAtPlayer()
-//{
-//
-//}
+void ATankAIController::AimAtPlayer()
+{
+	ATank* playerTank = GetPlayerTank();
+	GetControlledTank()->AimAt(playerTank->GetActorLocation());
+}
