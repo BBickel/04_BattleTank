@@ -12,7 +12,10 @@ ATank::ATank()
 	//No need to protect pointers as added at construction
 	tankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
-
+void ATank::SetBarrelReference(UStaticMeshComponent* barrelToSet)
+{
+	tankAimingComponent->SetBarrelReference(barrelToSet);
+}
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
