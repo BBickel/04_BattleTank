@@ -20,16 +20,8 @@ public:
 
 	void AimAt(FVector aimLocation, float launchSpeed);
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 private:
 
 	UStaticMeshComponent* barrel = nullptr;
-	
+	void MoveBarrelTowards(FVector aimDirection);
 };
