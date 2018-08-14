@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "Tank.h"
+#include "Tank.h"//This is actually not a good thing; should include in cpp instead, and use forward declarations
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
