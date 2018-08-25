@@ -32,11 +32,11 @@ void UTankAimingComponent::AimAt(FVector aimLocation, float launchSpeed)
 		outLaunchVelocity,
 		startLocation, 
 		aimLocation, 
-		launchSpeed
-		//false,//Default
-		//0,//Default
-		//0,//Default
-		//ESuggestProjVelocityTraceOption::DoNotTrace//Default
+		launchSpeed,
+		false,//Default
+		0,//Default
+		0,//Default
+		ESuggestProjVelocityTraceOption::DoNotTrace//Default (NOTE: Unreal bug present; requires this parameter despite being default)
 	);
 
 	if (didCalc == true)
