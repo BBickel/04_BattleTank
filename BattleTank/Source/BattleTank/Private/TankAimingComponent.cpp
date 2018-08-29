@@ -2,6 +2,8 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
+
 //#include "CoreMinimal.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
@@ -18,6 +20,10 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* barrelToSet)
 {
 	barrel = barrelToSet;
+}
+void UTankAimingComponent::SetTurretReference(UTankTurret* turretToSet)
+{
+	turret = turretToSet;
 }
 void UTankAimingComponent::AimAt(FVector aimLocation, float launchSpeed)
 {
@@ -45,6 +51,7 @@ void UTankAimingComponent::AimAt(FVector aimLocation, float launchSpeed)
 		auto tankName = GetOwner()->GetName();
 		//UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s"), *tankName, *aimDirection.ToString());
 		MoveBarrelTowards(aimDirection);
+		MoveTurretTowards(aimDirection);
 
 		auto time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%f: Aim Solution Found"), time);
@@ -55,7 +62,6 @@ void UTankAimingComponent::AimAt(FVector aimLocation, float launchSpeed)
 		UE_LOG(LogTemp, Warning, TEXT("%f: No Aim Solution Found"), time);
 	}
 }
-
 void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 {
 	//Work out the diff between current barrel rotation and aimDirection
@@ -64,4 +70,13 @@ void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection)
 	auto deltaRotator = aimAsRotator - barrelRotator;
 
 	barrel->Elevate(deltaRotator.Pitch);
+}
+void UTankAimingComponent::MoveTurretTowards(FVector aimDirection)
+{
+	//Work out the diff between current barrel rotation and aimDirection
+	auto turretRotator = turret->GetForwardVector().Rotation();
+	auto aimAsRotator = aimDirection.Rotation();
+	auto deltaRotator = aimAsRotator - turretRotator;
+
+	turret->Rotate(deltaRotator.Yaw);
 }

@@ -8,6 +8,7 @@
 
 //Forward declaration
 class UTankBarrel;
+class UTankTurret;
 
 
 //Last comment before class will show as tooltip on blueprint window:
@@ -23,11 +24,14 @@ public:
 	UTankAimingComponent();
 
 	void SetBarrelReference(UTankBarrel* barrelToSet);
+	void SetTurretReference(UTankTurret* turretToSet);
 
 	void AimAt(FVector aimLocation, float launchSpeed);
 
 private:
 
 	UTankBarrel* barrel = nullptr;
+	UTankTurret* turret = nullptr;
 	void MoveBarrelTowards(FVector aimDirection);
+	void MoveTurretTowards(FVector aimDirection);
 };
