@@ -39,3 +39,9 @@ void ATank::AimAt(FVector hitLocation)
 	if(tankAimingComponent)
 		tankAimingComponent->AimAt(hitLocation, LaunchSpeed);
 }
+
+void ATank::FireCannon()
+{
+	auto time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f: Cannon Fired"), time);
+}
