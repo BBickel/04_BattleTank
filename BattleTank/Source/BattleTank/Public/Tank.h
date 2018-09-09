@@ -46,14 +46,17 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 4000.0f;
-
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;// Alternative is TSubclassOf<>; refer to lecture Resources for documentation link
 
-	UTankBarrel* Barrel = nullptr;//Local barrel pointer for spawning the 
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 4000.0f;
 
+	//EditAnywhere = changes can be made on an instance basis (each tank could have a different speed); changes can be made in inspector
+	//EditDefaultsOnly = changes the template for all tanks to have the same value; changes can only be made in the Blueprint
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3;
+
+	UTankBarrel* Barrel = nullptr;//Local barrel pointer for spawning the 
 	double LastFireTime = 0;
 };
